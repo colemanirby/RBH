@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3 uid="uid://lbu805n8vx3s"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_18xx6"]
+[ext_resource type="Texture2D" uid="uid://ka5yjcas41fa" path="res://Images/Arrows/Arrow.png" id="1_vpf0u"]
+[ext_resource type="Texture2D" uid="uid://dsj5b1gkpchih" path="res://Images/Arrows/Arrow2.png" id="2_3hdaw"]
+[ext_resource type="Texture2D" uid="uid://3tkqwosxfs7k" path="res://Images/Arrows/Arrow2_left.png" id="2_eh05x"]
+[ext_resource type="Texture2D" uid="uid://bxsh60qnq6tv0" path="res://Images/Arrows/Arrow_flipped.png" id="2_wepu0"]
+[ext_resource type="Texture2D" uid="uid://b6sxblqurew3" path="res://Images/Arrows/Arrow_left.png" id="3_5j13s"]
+[ext_resource type="Texture2D" uid="uid://3v7omr0mjf1q" path="res://Images/Arrows/Arrow2_flipped.png" id="3_yhifn"]
+[ext_resource type="AudioStream" uid="uid://d4m8dog8q5cdu" path="res://Audio/SFX/Player/705296__kraterkeaton__boy_yelling.mp3" id="6_8r5yb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5q36x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_eh05x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_5j13s")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_yhifn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_wepu0")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_3hdaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_vpf0u")
+}],
+"loop": true,
+"name": &"up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjcdd"]
+size = Vector2(33, 72)
+
+[node name="Player" type="Area2D"]
+position = Vector2(256, 320)
+script = ExtResource("1_18xx6")
+metadata/_edit_group_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_5q36x")
+animation = &"left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, -1)
+shape = SubResource("RectangleShape2D_sjcdd")
+
+[node name="Yell" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_8r5yb")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
