@@ -13,7 +13,6 @@ func new_game():
 	score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
-	
 	$HUD.update_score(score)
 	$HUD.show_message("Have Fun!")
 	get_tree().call_group("mobs", "queue_free")
@@ -27,7 +26,7 @@ func _on_player_fire(Bullet, direction, location):
 	spawned_bullet.position = location
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 	
-	
+# every time the mob timer runs out, generate a new mob entity
 func _on_mob_timer_timeout():
 	var mob = mob_scene.instantiate()
 	
