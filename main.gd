@@ -4,6 +4,8 @@ extends Node
 
 var score
 
+var play_music = true
+
 func game_over():
 	$MobTimer.stop()
 	$HUD.show_game_over()
@@ -17,7 +19,8 @@ func new_game():
 	$HUD.show_message("Have Fun!")
 	get_tree().call_group("mobs", "queue_free")
 	
-	$Music.play()
+	if play_music:
+		$Music.play()
 
 func _on_player_fire(Bullet, direction, location):
 	var spawned_bullet = Bullet.instantiate()
@@ -55,3 +58,7 @@ func killed():
 
 func _on_start_timer_timeout():
 	$MobTimer.start()
+
+
+func _on_hud_mute_music():
+	play_music = false
