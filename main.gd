@@ -61,4 +61,8 @@ func _on_start_timer_timeout():
 
 
 func _on_hud_mute_music():
-	play_music = false
+	play_music = not play_music
+	if not play_music:
+		$Music.stop()
+	else:
+		$Music.play()
