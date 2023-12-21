@@ -1,8 +1,11 @@
 extends Area2D
 
 @export var speed = 400
+@export var shot_delay = 0.1
 var Bullet = preload("res://bullet.tscn")
 var screen_size
+
+var can_fire = true
 
 signal hit
 signal fire(bullet, direction, location)
@@ -14,18 +17,19 @@ func _ready():
 
 func start(pos):
 	position = pos
-	$AnimatedSprite2D.animation = "right"
+	$AnimatedSprite2D.animation = "ship"
+	$AnimatedSprite2D.play()
 	rotation = get_global_mouse_position().angle_to_point(position) + PI
 	show()
 	$CollisionShape2D.disabled = false
 
 func _physics_process(delta):
 	rotation = get_global_mouse_position().angle_to_point(position) + PI
-	
-func _input(event):
 	if visible:
-		if event.is_action_pressed("click"):
+		if Input.is_action_pressed("click") and can_fire:
+			can_fire = false
 			fire.emit(Bullet, rotation, position)
+			$ShotTimer.start(shot_delay)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,10 +46,10 @@ func _process(delta):
 	
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
-		$AnimatedSprite2D.play()
+		#$AnimatedSprite2D.play()
 	else:
-		$AnimatedSprite2D.stop()
-	
+		pass
+		#$AnimatedSprite2D.stop()
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
 	
@@ -68,3 +72,7 @@ func _on_body_entered(body):
 	
 	# Using set_deferred() tells Godot to wait to disable the shape until it's safe to do so
 	$CollisionShape2D.set_deferred("disabled", true)
+
+
+func _on_shot_timer_timeout():
+	can_fire = true
