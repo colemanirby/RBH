@@ -24,6 +24,8 @@ func _on_player_fire(Bullet, direction, location):
 	add_child(spawned_bullet)
 	spawned_bullet.rotation = direction
 	spawned_bullet.position = location
+	
+	#rotate the bullet's velocity vector to point in the direction the ship is facing
 	spawned_bullet.velocity = spawned_bullet.velocity.rotated(direction)
 	
 # every time the mob timer runs out, generate a new mob entity
@@ -47,13 +49,9 @@ func _on_mob_timer_timeout():
 	add_child(mob)
 
 func killed():
-	print("Killed Enemy")
 	$EnemyDead.play()
 	score += 1
 	$HUD.update_score(score)
-#func _on_score_timer_timeout():
-	#score += 1
-	#$HUD.update_score(score)
 
 func _on_start_timer_timeout():
 	$MobTimer.start()

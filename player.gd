@@ -4,7 +4,6 @@ extends Area2D
 @export var shot_delay = 0.1
 var Bullet = preload("res://bullet.tscn")
 var screen_size
-
 var can_fire = true
 
 signal hit
@@ -19,11 +18,15 @@ func start(pos):
 	position = pos
 	$AnimatedSprite2D.animation = "ship"
 	$AnimatedSprite2D.play()
+	
+	#This may be a bug in the engine? Found this old issue on github specifically for c# version:
+	#https://github.com/godotengine/godot/issues/70499
 	rotation = get_global_mouse_position().angle_to_point(position) + PI
+	
 	show()
 	$CollisionShape2D.disabled = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	rotation = get_global_mouse_position().angle_to_point(position) + PI
 	if visible:
 		if Input.is_action_pressed("click") and can_fire:
@@ -49,7 +52,6 @@ func _process(delta):
 		#$AnimatedSprite2D.play()
 	else:
 		pass
-		#$AnimatedSprite2D.stop()
 	position += velocity * delta
 	position = position.clamp(Vector2.ZERO, screen_size)
 	
@@ -65,7 +67,7 @@ func _process(delta):
 		#$AnimatedSprite2D.animation = "right"
 
 
-func _on_body_entered(body):
+func _on_body_entered(_body):
 	$Yell.play()
 	hide()
 	hit.emit()
