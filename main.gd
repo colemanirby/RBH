@@ -6,9 +6,6 @@ var score
 
 var play_music = false
 
-#func _ready():
-	#get_window().size = Vector
-	
 func game_over():
 	$MobTimer.stop()
 	$HUD.show_game_over()

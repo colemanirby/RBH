@@ -28,6 +28,7 @@ animations = [{
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_tu2fs")
+metadata/_edit_group_ = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tj3fn")

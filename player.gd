@@ -21,14 +21,15 @@ func start(pos):
 	
 	#This may be a bug in the engine? Found this old issue on github specifically for c# version:
 	#https://github.com/godotengine/godot/issues/70499
-	rotation = get_global_mouse_position().angle_to_point(position) + PI
+	#rotation = get_global_mouse_position().angle_to_point(Vector2.UP)
 	
 	show()
 	$CollisionShape2D.disabled = false
 
 func _physics_process(_delta):
-	rotation = get_global_mouse_position().angle_to_point(position) + PI
 	if visible:
+		if Input.is_action_pressed("right_click"):
+			rotation = get_global_mouse_position().angle_to_point(position) + PI
 		if Input.is_action_pressed("click") and can_fire:
 			can_fire = false
 			fire.emit(Bullet, rotation, position)
