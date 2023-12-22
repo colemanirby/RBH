@@ -11,14 +11,6 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("5_lv2jg")
-}],
-"loop": true,
-"name": &"Blue",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": ExtResource("3_mx17s")
 }, {
 "duration": 1.0,
@@ -30,22 +22,6 @@ animations = [{
 "loop": true,
 "name": &"Flash",
 "speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_jcfh5")
-}],
-"loop": true,
-"name": &"Red",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_mx17s")
-}],
-"loop": true,
-"name": &"Yellow",
-"speed": 42.0
 }]
 
 [node name="Bullet" type="Area2D"]
