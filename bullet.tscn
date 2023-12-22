@@ -1,9 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://p1hqts5dkbqp"]
+[gd_scene load_steps=7 format=3 uid="uid://p1hqts5dkbqp"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_tu2fs"]
-[ext_resource type="Texture2D" uid="uid://bscm5cmvyve23" path="res://icon.svg" id="1_vbmyw"]
+[ext_resource type="Texture2D" uid="uid://dcm1knxi352yt" path="res://Images/Items/Bullets/Basic/basic_bullet_Y.png" id="3_mx17s"]
+[ext_resource type="Texture2D" uid="uid://b22teq4ima0nf" path="res://Images/Items/Bullets/Basic/basic_bullet_R.png" id="4_jcfh5"]
+[ext_resource type="Texture2D" uid="uid://du4cjtqmhds3b" path="res://Images/Items/Bullets/Basic/basic_bullet_B.png" id="5_lv2jg"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tj3fn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7vvum"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_lv2jg")
+}],
+"loop": true,
+"name": &"Blue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mx17s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_jcfh5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_lv2jg")
+}],
+"loop": true,
+"name": &"Flash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_jcfh5")
+}],
+"loop": true,
+"name": &"Red",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_mx17s")
+}],
+"loop": true,
+"name": &"Yellow",
+"speed": 42.0
+}]
 
 [node name="Bullet" type="Area2D"]
 collision_layer = 3
@@ -13,10 +56,11 @@ script = ExtResource("1_tu2fs")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_tj3fn")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_vbmyw")
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Flash" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_7vvum")
+animation = &"Flash"
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

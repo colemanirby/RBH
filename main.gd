@@ -4,7 +4,7 @@ extends Node
 
 var score
 
-var play_music = true
+var play_music = false
 
 func game_over():
 	$MobTimer.stop()
@@ -33,6 +33,7 @@ func _on_player_fire(Bullet, direction, location):
 	
 # every time the mob timer runs out, generate a new mob entity
 func _on_mob_timer_timeout():
+	#pass
 	var mob = mob_scene.instantiate()
 	
 	var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
