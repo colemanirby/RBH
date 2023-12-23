@@ -1,7 +1,10 @@
 extends Area2D
 
-@export var speed = 400
+@export var max_speed = 400
+@export var acceleration = 1600
+@export var deceleration = 100
 @export var shot_delay = 0.1
+var previous_velocity
 var Bullet = preload("res://bullet.tscn")
 var screen_size
 var can_fire = true
@@ -12,6 +15,7 @@ signal fire(bullet, direction, location)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hide()
+	previous_velocity = Vector2.ZERO
 	screen_size = get_viewport_rect().size
 
 func start(pos):
@@ -34,39 +38,43 @@ func _physics_process(_delta):
 			can_fire = false
 			fire.emit(Bullet, rotation, position)
 			$ShotTimer.start(shot_delay)
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+
 	#direction = get_global_mouse_position() - position
-	var velocity = Vector2.ZERO
+	var current_input = Vector2.ZERO
 	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
+		current_input.x += 1
 	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
+		current_input.x -= 1
 	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
+		current_input.y += 1
 	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
-	
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		#$AnimatedSprite2D.play()
-	else:
-		pass
-	position += velocity * delta
+		current_input.y -= 1
+
+	var velocity = calc_veloc(current_input, _delta)
+	#velocity = velocity.normalized() * max_speed
+	#$AnimatedSprite2D.play(
+	position += velocity * _delta
+	previous_velocity = velocity
 	position = position.clamp(Vector2.ZERO, screen_size)
 	
-	#if velocity.x != 0:
-		#$AnimatedSprite2D.animation = "right"
-		#$AnimatedSprite2D.flip_v = false
-		#$AnimatedSprite2D.flip_h = velocity.x < 0
-	#if velocity.y != 0:
-		#$AnimatedSprite2D.animation = "up"
-		#$AnimatedSprite2D.flip_v = velocity.y > 0
+	
+# Speed up if requested. Slow down otherwise.
+func calc_veloc(current_input, delta):
+	var final_velocity_vector = previous_velocity
+	var final_speed = 0
+	if current_input.length() > 0:
+		if previous_velocity.length() < max_speed:
+			final_speed = previous_velocity.length() + (acceleration * delta)
+			final_velocity_vector = current_input.normalized() * final_speed
+		else:
+			final_velocity_vector = current_input.normalized() * max_speed
+	else:
+		final_speed = previous_velocity.length() - (deceleration * delta)
+		final_velocity_vector = final_velocity_vector.normalized() * final_speed
 		
-	#if velocity.x != 0 or velocity.y != 0:
-		#$AnimatedSprite2D.animation = "right"
-
+	return final_velocity_vector
+		
+	
 
 func _on_body_entered(_body):
 	$Yell.play()
