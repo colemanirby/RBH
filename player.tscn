@@ -65,6 +65,8 @@ height = 48.0
 [node name="Player" type="Area2D"]
 position = Vector2(256, 320)
 script = ExtResource("1_18xx6")
+velocity_increment = 0.075
+velocity_decrement = 0.01
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -80,6 +82,8 @@ shape = SubResource("CapsuleShape2D_sc8xj")
 stream = ExtResource("6_8r5yb")
 
 [node name="ShotTimer" type="Timer" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]

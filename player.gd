@@ -3,7 +3,7 @@ extends Area2D
 @export var max_speed = 400
 var min_speed = 0.01
 @export var shot_delay = 0.1
-@export var velocity_increment = .001
+@export var velocity_increment = .0001
 @export var velocity_decrement = 0.001
 var velocity_direction_vector = Vector2.ZERO
 var Bullet = preload("res://bullet.tscn")
@@ -82,7 +82,7 @@ func handle_full_velocity(x, y):
 	print("*************** Handle Full Velocity ***************")
 
 func reduce_velocity(current_speed, v_x, v_y):
-	print("reduce")
+	
 	var reduced_velocity = Vector2(0, 0)
 	
 	if current_speed > min_speed:
