@@ -5,7 +5,7 @@ extends Node
 var score
 
 var play_music = false
-var spawn_mob = false
+var spawn_mob = true
 
 func game_over():
 	$MobTimer.stop()
