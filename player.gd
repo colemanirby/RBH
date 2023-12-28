@@ -61,13 +61,13 @@ func calc_veloc(current_input: Vector2):
 	if current_input.length() >= 1:
 		var x_input = current_input.x
 		var y_input = current_input.y
-		if(v_len >= 1):
+		if v_len >= 1 :
 			handle_full_velocity(x_input, y_input)
 		else:
 			print("accumulate_velocity")
 			accumulate_velocity(x_input, y_input)
 	else:
-		if(velocity_direction_vector.length() != 0):
+		if velocity_direction_vector.length() != 0 :
 			reduce_velocity(v_len, v_x, v_y)
 	
 func handle_full_velocity(x, y):
@@ -99,6 +99,7 @@ func accumulate_velocity(x, y):
 func _on_body_entered(_body):
 	$Yell.play()
 	hide()
+	velocity_direction_vector = Vector2(0,0)
 	hit.emit()
 	
 	# Using set_deferred() tells Godot to wait to disable the shape until it's safe to do so
