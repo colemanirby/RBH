@@ -6,6 +6,8 @@ var score
 
 var play_music = false
 var spawn_mob = true
+var max_mob_count = 20
+var mob_count = 0
 
 func game_over():
 	$MobTimer.stop()
@@ -34,7 +36,7 @@ func _on_player_fire(Bullet, direction, location):
 	
 # every time the mob timer runs out, generate a new mob entity
 func _on_mob_timer_timeout():
-	if spawn_mob:
+	if spawn_mob and mob_count < max_mob_count:
 		var mob = mob_scene.instantiate()
 		
 		var mob_spawn_location = get_node("MobPath/MobSpawnLocation")
@@ -52,9 +54,11 @@ func _on_mob_timer_timeout():
 
 		mob.connect("killed", killed)
 		add_child(mob)
+		mob_count = mob_count + 1
 
 func killed():
 	$EnemyDead.play()
+	mob_count = mob_count - 1
 	score += 1
 	$HUD.update_score(score)
 
