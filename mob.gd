@@ -1,9 +1,11 @@
 extends RigidBody2D
 
+@export var speed = 300
+
 signal killed
 
 var target
-var speed = 100
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	target = get_parent().get_node("Player")

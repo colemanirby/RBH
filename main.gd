@@ -10,6 +10,8 @@ var max_mob_count = 20
 var mob_count = 0
 
 func game_over():
+	get_tree().call_group("mobs", "queue_free")
+	mob_count = 0
 	$MobTimer.stop()
 	$HUD.show_game_over()
 	$Music.stop()
@@ -20,7 +22,6 @@ func new_game():
 	$StartTimer.start()
 	$HUD.update_score(score)
 	$HUD.show_message("Have Fun!")
-	get_tree().call_group("mobs", "queue_free")
 	
 	if play_music:
 		$Music.play()
