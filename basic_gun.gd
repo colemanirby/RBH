@@ -22,7 +22,6 @@ func _process(delta):
 			can_fire = false
 			$Gun_Sprite.animation = "firin"
 			$Gun_Sprite.play()
-			#get_parent().fire.emit(Bullet, global_rotation, global_position)
 			fire.emit(Bullet, global_rotation - PI / 2, global_position)
 			$ShotTimer.start(shot_delay)
 		else:

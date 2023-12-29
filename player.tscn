@@ -82,8 +82,6 @@ shape = SubResource("CapsuleShape2D_sc8xj")
 [node name="Yell" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_8r5yb")
 
-[node name="ShotTimer" type="Timer" parent="."]
-
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("11_ax4rx")
 
@@ -96,6 +94,5 @@ position = Vector2(45, 18)
 rotation = 1.5708
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
 [connection signal="fire" from="Basic_Gun" to="." method="_on_basic_gun_fire"]
 [connection signal="fire" from="Basic_Gun2" to="." method="_on_basic_gun_fire"]

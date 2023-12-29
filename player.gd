@@ -6,9 +6,7 @@ var min_speed = 0.01
 @export var velocity_increment = .0001
 @export var velocity_decrement = 0.001
 var velocity_direction_vector = Vector2.ZERO
-var Bullet = preload("res://bullet.tscn")
 var screen_size
-var can_fire = true
 
 signal hit
 signal fire(bullet, direction, location)
@@ -33,10 +31,6 @@ func _physics_process(delta):
 		#This may be a bug in the engine? Found this old issue on github specifically for c# version:
 		#https://github.com/godotengine/godot/issues/70499
 		rotation = get_global_mouse_position().angle_to_point(position) + PI
-		#if Input.is_action_pressed("click") and can_fire:
-			#can_fire = false
-			#fire.emit(Bullet, rotation, position)
-			#$ShotTimer.start(shot_delay)
 
 		#direction = get_global_mouse_position() - position
 		var current_input = Vector2.ZERO
@@ -66,22 +60,15 @@ func calc_veloc(current_input: Vector2):
 		if v_len >= 1 :
 			handle_full_velocity(x_input, y_input)
 		else:
-			print("accumulate_velocity")
 			accumulate_velocity(x_input, y_input)
 	else:
 		if velocity_direction_vector.length() != 0 :
 			reduce_velocity(v_len, v_x, v_y)
 	
 func handle_full_velocity(x, y):
-	print("--------------- Handle Full Velocity ---------------")
-	print("Handle Full Velocity x: ", x)
-	print("Handle Full Velocity y: ", y)
-	print("velocity_direction_vector initial: ", velocity_direction_vector)
+	
 	velocity_direction_vector += Vector2(x * velocity_increment, y * velocity_increment)
-	print("velocity_direction_vector increment: ", velocity_direction_vector)
 	velocity_direction_vector = velocity_direction_vector.normalized()
-	print("velocity_direction_vector final: ", velocity_direction_vector)
-	print("*************** Handle Full Velocity ***************")
 
 func reduce_velocity(current_speed, v_x, v_y):
 	
@@ -95,7 +82,6 @@ func reduce_velocity(current_speed, v_x, v_y):
 	
 func accumulate_velocity(x, y):
 	velocity_direction_vector += Vector2(x * velocity_increment, y * velocity_increment)
-	print(velocity_direction_vector)
 
 
 func _on_body_entered(_body):
@@ -106,9 +92,6 @@ func _on_body_entered(_body):
 	
 	# Using set_deferred() tells Godot to wait to disable the shape until it's safe to do so
 	$CollisionShape2D.set_deferred("disabled", true)
-
-func _on_shot_timer_timeout():
-	can_fire = true
 
 
 func _on_basic_gun_fire(bullet, direction, location):
