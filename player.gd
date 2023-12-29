@@ -23,6 +23,8 @@ func start(pos):
 	$AnimatedSprite2D.animation = "ship"
 	$AnimatedSprite2D.play()
 	show()
+	$Basic_Gun.show()
+	$Basic_Gun2.show()
 	$CollisionShape2D.disabled = false
 
 func _physics_process(delta):

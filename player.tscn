@@ -88,11 +88,11 @@ stream = ExtResource("6_8r5yb")
 script = ExtResource("11_ax4rx")
 
 [node name="Basic_Gun" parent="." instance=ExtResource("11_b58an")]
-position = Vector2(19, -17)
+position = Vector2(45, -18)
 rotation = 1.5708
 
 [node name="Basic_Gun2" parent="." instance=ExtResource("11_b58an")]
-position = Vector2(20, 19)
+position = Vector2(45, 18)
 rotation = 1.5708
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

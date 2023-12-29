@@ -10,12 +10,12 @@ var can_fire = true
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print("ready")
+	hide()
 	$Gun_Sprite.animation = "chillin"
 	$Gun_Sprite.play()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _process(delta):
 	if visible:
 		if Input.is_action_pressed("click") and can_fire:
 			print("Firing")
