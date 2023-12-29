@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://lbu805n8vx3s"]
+[gd_scene load_steps=15 format=3 uid="uid://lbu805n8vx3s"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_18xx6"]
 [ext_resource type="Texture2D" uid="uid://ka5yjcas41fa" path="res://Images/Arrows/Arrow.png" id="1_vpf0u"]
@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://d4m8dog8q5cdu" path="res://Audio/SFX/Player/705296__kraterkeaton__boy_yelling.mp3" id="6_8r5yb"]
 [ext_resource type="Texture2D" uid="uid://bjtpbuwxqd71d" path="res://Images/Player/Basic_1.png" id="6_ft2w0"]
 [ext_resource type="Texture2D" uid="uid://dn5hhj314hybd" path="res://Images/Player/Basic_2.png" id="7_vukx3"]
+[ext_resource type="Script" path="res://camera2D.gd" id="11_ax4rx"]
+[ext_resource type="PackedScene" uid="uid://y8hjpd61jmrf" path="res://basic_gun.tscn" id="11_b58an"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5q36x"]
 animations = [{
@@ -63,11 +65,10 @@ radius = 24.0
 height = 48.0
 
 [node name="Player" type="Area2D"]
-position = Vector2(256, 320)
+position = Vector2(264, 331)
 script = ExtResource("1_18xx6")
 velocity_increment = 0.075
 velocity_decrement = 0.01
-metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
@@ -84,6 +85,17 @@ stream = ExtResource("6_8r5yb")
 [node name="ShotTimer" type="Timer" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("11_ax4rx")
+
+[node name="Basic_Gun" parent="." instance=ExtResource("11_b58an")]
+position = Vector2(19, -17)
+rotation = 1.5708
+
+[node name="Basic_Gun2" parent="." instance=ExtResource("11_b58an")]
+position = Vector2(20, 19)
+rotation = 1.5708
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
+[connection signal="fire" from="Basic_Gun" to="." method="_on_basic_gun_fire"]
+[connection signal="fire" from="Basic_Gun2" to="." method="_on_basic_gun_fire"]

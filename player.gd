@@ -27,14 +27,14 @@ func start(pos):
 
 func _physics_process(delta):
 	if visible:
-		if Input.is_action_pressed("right_click"):
-			#This may be a bug in the engine? Found this old issue on github specifically for c# version:
-			#https://github.com/godotengine/godot/issues/70499
-			rotation = get_global_mouse_position().angle_to_point(position) + PI
-		if Input.is_action_pressed("click") and can_fire:
-			can_fire = false
-			fire.emit(Bullet, rotation, position)
-			$ShotTimer.start(shot_delay)
+		#if Input.is_action_pressed("right_click"):
+		#This may be a bug in the engine? Found this old issue on github specifically for c# version:
+		#https://github.com/godotengine/godot/issues/70499
+		rotation = get_global_mouse_position().angle_to_point(position) + PI
+		#if Input.is_action_pressed("click") and can_fire:
+			#can_fire = false
+			#fire.emit(Bullet, rotation, position)
+			#$ShotTimer.start(shot_delay)
 
 		#direction = get_global_mouse_position() - position
 		var current_input = Vector2.ZERO
@@ -107,3 +107,8 @@ func _on_body_entered(_body):
 
 func _on_shot_timer_timeout():
 	can_fire = true
+
+
+func _on_basic_gun_fire(bullet, direction, location):
+	print("basic gun fire")
+	fire.emit(bullet, direction, location)
