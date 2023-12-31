@@ -111,6 +111,7 @@ offset_right = 200.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_mx4ol")
+theme_override_font_sizes/font_size = 30
 text = "High Scores!"
 horizontal_alignment = 1
 vertical_alignment = 1

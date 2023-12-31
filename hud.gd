@@ -6,7 +6,7 @@ signal mute_music
 
 var show_highscores = false
 func _ready():
-	#save()
+	#save_2()
 	$Unpause.hide()
 	$HighScores_Label.hide()
 	load_highscores()
@@ -77,31 +77,60 @@ func load_highscores():
 		return
 	
 	var high_score_result = json.get_data()
-	var high_score_string = ""
-	
-	for name in high_score_result:
-		high_score_string += name + ": " + high_score_result[name] + "\n"
+	var high_score_string: String = "High Scores: \n \n"
+	sort_high_scores(high_score_result)
+	var high_score_array = []
+	for score in high_score_result:
 		
+		#high_score_string.insert(0, name + ": " + high_score_result[name] + "\n")
+		#high_score_string += name + ": " + high_score_result[name] + "\n"
+		high_score_array.append(high_score_result[score] + ": " + score + "\n")
+	for i in high_score_array.size():
+		print(i)
+		high_score_string += high_score_array[high_score_array.size() - i - 1] 
+	print("High Score String: ", high_score_string)
 	$HighScores_Label.text = high_score_string
-		
+		#
+#func save_2():
+	#var save_dict = {
+		#10: "CKI",
+		#9: "BUB",
+		#8: "DIC",
+		#7: "FUK",
+		#6: "ASS",
+		#5: "LIK",
+		#4: "PUS",
+		#3: "TRD",
+		#2: "BBW",
+		#1: "BCH"
+	#}
+	#var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
+	#
+	#save_game.store_line(JSON.stringify(save_dict))
+	#
+#func save():
+	#var save_dict = {
+		#"CKI": "10",
+		#"BUB": "9",
+		#"DIC": "8",
+		#"FUK": "7",
+		#"ASS": "6",
+		#"LIK": "5",
+		#"PUS": "4",
+		#"TRD": "3",
+		#"BBW": "2",
+		#"BCH": "1"
+	#}
+	#var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
+	#
+	#save_game.store_line(JSON.stringify(save_dict))
 
-func save():
-	var save_dict = {
-		"CKI": "10",
-		"BUB": "9",
-		"DIC": "8",
-		"FUK": "7",
-		"ASS": "6",
-		"LIK": "5",
-		"PUS": "4",
-		"TRD": "3",
-		"BBW": "2",
-		"BCH": "1"
-	}
-	var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
-	
-	save_game.store_line(JSON.stringify(save_dict))
-	
+func sort_high_scores(high_score_result):
+	#var sorted_result = {}
+	#for name in high_score_result:
+		#if(sorted_result.is_empty())
+		#sorted_result[name] 
+	pass
 	
 func _on_high_scores_pressed():
 	hide_buttons()
