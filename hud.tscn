@@ -89,7 +89,34 @@ grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_mx4ol")
 text = "Continue"
 
+[node name="HighScores" type="Button" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -624.0
+offset_top = 404.0
+offset_right = -531.0
+offset_bottom = 428.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("2_mx4ol")
+text = "High Scores"
+
+[node name="HighScores_Label" type="Label" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -228.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_mx4ol")
+text = "High Scores!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="Mute" to="." method="_on_mute_pressed"]
 [connection signal="pressed" from="Unpause" to="." method="_on_unpause_pressed"]
+[connection signal="pressed" from="HighScores" to="." method="_on_high_scores_pressed"]

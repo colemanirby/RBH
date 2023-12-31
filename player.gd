@@ -89,6 +89,8 @@ func _on_body_entered(_body):
 	hide()
 	velocity_direction_vector = Vector2(0,0)
 	hit.emit()
+	$Basic_Gun.hide()
+	$Basic_Gun2.hide()
 	
 	# Using set_deferred() tells Godot to wait to disable the shape until it's safe to do so
 	$CollisionShape2D.set_deferred("disabled", true)
