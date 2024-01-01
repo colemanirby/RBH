@@ -3,16 +3,21 @@ extends CanvasLayer
 signal start_game
 signal mute_music
 var game_started = false
-var high_score_name_count = 0
 # Called when the node enters the scene tree for the first time.
+var high_score_result
+var current_score = 0
 
-var show_highscores = false
 func _ready():
-	#save_2()
 	$LineEdit.text = "---"
+	hide_for_ready()
+	load_highscores()
+
+func hide_for_ready():
+	$LineEdit.hide()
 	$Unpause.hide()
 	$HighScores_Label.hide()
-	load_highscores()
+	$Saving.hide()
+	$EnterName.hide()
 	
 func show_message(text):
 	$Message.text = text
@@ -20,6 +25,16 @@ func show_message(text):
 	$MessageTimer.start()
 
 func show_game_over():
+	var display_input_for_hs = check_highscores()
+	if display_input_for_hs:
+		$EnterName.show()
+		$LineEdit.show()
+		$LineEdit.grab_focus()
+	else:
+		game_over_display()
+	
+
+func game_over_display():
 	show_message("Game Over")
 	
 	await $MessageTimer.timeout
@@ -29,9 +44,11 @@ func show_game_over():
 	$Message.show()
 	
 	await get_tree().create_timer(1.0).timeout
-	$StartButton.show()
+	show_buttons()
+	
 	
 func update_score(score):
+	current_score = score
 	$ScoreLabel.text = str(score)
 
 func _on_message_timer_timeout():
@@ -39,6 +56,7 @@ func _on_message_timer_timeout():
 
 
 func _on_start_button_pressed():
+	current_score = 0
 	game_started = true
 	$StartButton.hide()
 	$Mute.hide()
@@ -81,7 +99,14 @@ func load_highscores():
 		print("JSON Parse Error: ", json.get_error_message(), " in ", high_score_data, " at line ", json.get_error_line())
 		return
 	
-	var high_score_result = json.get_data()
+	high_score_result = json.get_data()
+
+func save_highscores(new_name):
+	print("saving name: ", new_name)
+
+	
+func _on_high_scores_pressed():
+	hide_buttons()
 	var high_score_string: String = "High Scores: \n \n"
 	var high_score_array = []
 	for score in high_score_result:
@@ -89,45 +114,20 @@ func load_highscores():
 	for i in high_score_array.size():
 		high_score_string += high_score_array[high_score_array.size() - i - 1] 
 	$HighScores_Label.text = high_score_string
-		#
-#func save_2():
-	#var save_dict = {
-		#10: "CKI",
-		#9: "BUB",
-		#8: "DIC",
-		#7: "FUK",
-		#6: "ASS",
-		#5: "LIK",
-		#4: "PUS",
-		#3: "TRD",
-		#2: "BBW",
-		#1: "BCH"
-	#}
-	#var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
-	#
-	#save_game.store_line(JSON.stringify(save_dict))
-	#
-#func save():
-	#var save_dict = {
-		#"CKI": "10",
-		#"BUB": "9",
-		#"DIC": "8",
-		#"FUK": "7",
-		#"ASS": "6",
-		#"LIK": "5",
-		#"PUS": "4",
-		#"TRD": "3",
-		#"BBW": "2",
-		#"BCH": "1"
-	#}
-	#var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
-	#
-	#save_game.store_line(JSON.stringify(save_dict))
-	
-func _on_high_scores_pressed():
-	hide_buttons()
 	$HighScores_Label.show()
 
+func check_highscores():
+	for score in high_score_result:
+		print(score)
+		print("going")
+		if current_score > int(score):
+			return true
+		elif current_score < int(score):
+			return false
+		
+	return false
+		
+		
 func show_buttons():
 	$ScoreLabel.show()
 	$Message.show()
@@ -136,6 +136,8 @@ func show_buttons():
 	$Mute.show()
 	
 func hide_buttons():
+	$Saving.hide()
+	$EnterName.hide()
 	$ScoreLabel.hide()
 	$Message.hide()
 	$StartButton.hide()
@@ -147,19 +149,23 @@ func hide_buttons():
 
 func _on_line_edit_text_changed(new_text):
 	$LineEdit.text = new_text + "-"
-	print("$LineEdit.text: ", $LineEdit.text)
 	new_text = new_text.replace("-","")
-	print("new_text: " + new_text)
 	$LineEdit.set_caret_column(new_text.length())
 
 
 func _on_line_edit_text_submitted(new_text):
-	print("Implement Save functionality here (new_text): ", new_text)
-	pass 
+	$EnterName.hide()
+	$LineEdit.hide()
+	$LineEdit.text = "---"
+	$Saving.show()
+	await get_tree().create_timer(1.0).timeout
+	save_highscores(new_text)
+	$Saving.hide()
+	
+	game_over_display()
 
 
 func _on_line_edit_text_change_rejected(rejected_substring):
-	print("rejected_substring: ", rejected_substring)
 	if $LineEdit.text.contains("-"):
 		$LineEdit.text[$LineEdit.text.find("-")] = rejected_substring
 		var no_dashes = $LineEdit.text.replace("-", "")

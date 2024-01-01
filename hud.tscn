@@ -127,6 +127,24 @@ text = "---"
 alignment = 1
 max_length = 3
 
+[node name="Saving" type="Label" parent="."]
+offset_left = 456.0
+offset_top = 234.0
+offset_right = 684.0
+offset_bottom = 296.0
+theme_override_fonts/font = ExtResource("2_mx4ol")
+theme_override_font_sizes/font_size = 61
+text = "Saving..."
+
+[node name="EnterName" type="Label" parent="."]
+offset_left = 398.0
+offset_top = 159.0
+offset_right = 748.0
+offset_bottom = 219.0
+theme_override_fonts/font = ExtResource("2_mx4ol")
+theme_override_font_sizes/font_size = 60
+text = "Enter Name:"
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
 [connection signal="pressed" from="Mute" to="." method="_on_mute_pressed"]
