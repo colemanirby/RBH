@@ -104,21 +104,29 @@ func load_highscores():
 func save_highscores(new_name):
 	var scores = []
 	var names = []
-	var index = 0
 	var new_highscores = []
+	
+	#put entries into arrays for easier handling.
+	#Mappings from scores to names should maintain 
+	#a structure such that "entry = {scores[i]: names[i]}"
 	for entry in highscore_data:
 		var score_value = entry.keys()[0]
-		if int(score_value) < current_score:
-			index+=1
 		scores.append(score_value)
 		names.append(entry[score_value])
-	if index == scores.size():
-		index = index - 1
+
+	var inserted_score = false
+	
+	#Now we can keep an eye out for an appropriate place to place a score
+	#while building the new high scores. If we never found a place to
+	#put it, it means it is the new highest score.
 	for i in range(1, scores.size()):
-		new_highscores.append({scores[i]: names[i]})
-		if i == index:
+		if current_score <= int(scores[i]) and not inserted_score:
+			inserted_score = true
 			new_highscores.append({str(current_score): new_name})
-			
+		new_highscores.append({scores[i]: names[i]})
+	if not inserted_score:
+		new_highscores.append({str(current_score): new_name})
+	
 	var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
 	save_game.store_line(JSON.stringify(new_highscores))
 	highscore_data = new_highscores
@@ -137,6 +145,8 @@ func _on_high_scores_pressed():
 	$HighScores_Label.text = high_score_string
 	$HighScores_Label.show()
 
+#can probably get away with seeing if we have a score that's higher than
+#the lowest stored score. Order should be maintained by other functions.
 func check_highscores():
 	for entry in highscore_data:
 		var score_value = entry.keys()[0]
