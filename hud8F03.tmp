@@ -121,7 +121,6 @@ offset_left = 535.0
 offset_top = 247.0
 offset_right = 602.063
 offset_bottom = 278.0
-theme_override_colors/caret_color = Color(0, 0, 0, 0)
 theme_override_fonts/font = ExtResource("2_mx4ol")
 text = "---"
 alignment = 1
@@ -132,6 +131,7 @@ max_length = 3
 [connection signal="pressed" from="Mute" to="." method="_on_mute_pressed"]
 [connection signal="pressed" from="Unpause" to="." method="_on_unpause_pressed"]
 [connection signal="pressed" from="HighScores" to="." method="_on_high_scores_pressed"]
+[connection signal="focus_entered" from="LineEdit" to="." method="_on_line_edit_focus_entered"]
 [connection signal="text_change_rejected" from="LineEdit" to="." method="_on_line_edit_text_change_rejected"]
 [connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
 [connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]

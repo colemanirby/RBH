@@ -2,11 +2,14 @@ extends CanvasLayer
 
 signal start_game
 signal mute_music
+var game_started = false
+var high_score_name_count = 0
 # Called when the node enters the scene tree for the first time.
 
 var show_highscores = false
 func _ready():
 	#save_2()
+	$LineEdit.text = "---"
 	$Unpause.hide()
 	$HighScores_Label.hide()
 	load_highscores()
@@ -20,6 +23,7 @@ func show_game_over():
 	show_message("Game Over")
 	
 	await $MessageTimer.timeout
+	game_started = false
 	
 	$Message.text = "Across The Stars"
 	$Message.show()
@@ -35,6 +39,7 @@ func _on_message_timer_timeout():
 
 
 func _on_start_button_pressed():
+	game_started = true
 	$StartButton.hide()
 	$Mute.hide()
 	$HighScores.hide()
@@ -51,7 +56,7 @@ func _input(event):
 		$Unpause.show()
 		$Mute.show()
 		print("pause!")
-	if visible:
+	if visible and not game_started:
 		if event.is_action_pressed("click"):
 			$HighScores_Label.hide()
 			show_buttons()
@@ -78,17 +83,11 @@ func load_highscores():
 	
 	var high_score_result = json.get_data()
 	var high_score_string: String = "High Scores: \n \n"
-	sort_high_scores(high_score_result)
 	var high_score_array = []
 	for score in high_score_result:
-		
-		#high_score_string.insert(0, name + ": " + high_score_result[name] + "\n")
-		#high_score_string += name + ": " + high_score_result[name] + "\n"
 		high_score_array.append(high_score_result[score] + ": " + score + "\n")
 	for i in high_score_array.size():
-		print(i)
 		high_score_string += high_score_array[high_score_array.size() - i - 1] 
-	print("High Score String: ", high_score_string)
 	$HighScores_Label.text = high_score_string
 		#
 #func save_2():
@@ -124,13 +123,6 @@ func load_highscores():
 	#var save_game = FileAccess.open("res://Save/high_scores.json", FileAccess.WRITE)
 	#
 	#save_game.store_line(JSON.stringify(save_dict))
-
-func sort_high_scores(high_score_result):
-	#var sorted_result = {}
-	#for name in high_score_result:
-		#if(sorted_result.is_empty())
-		#sorted_result[name] 
-	pass
 	
 func _on_high_scores_pressed():
 	hide_buttons()
@@ -150,3 +142,27 @@ func hide_buttons():
 	$HighScores.hide()
 	$Mute.hide()
 	
+
+####################### Text Input for High Scores#########################################
+
+func _on_line_edit_text_changed(new_text):
+	$LineEdit.text = new_text + "-"
+	print("$LineEdit.text: ", $LineEdit.text)
+	new_text = new_text.replace("-","")
+	print("new_text: " + new_text)
+	$LineEdit.set_caret_column(new_text.length())
+
+
+func _on_line_edit_text_submitted(new_text):
+	print("Implement Save functionality here (new_text): ", new_text)
+	pass 
+
+
+func _on_line_edit_text_change_rejected(rejected_substring):
+	print("rejected_substring: ", rejected_substring)
+	if $LineEdit.text.contains("-"):
+		$LineEdit.text[$LineEdit.text.find("-")] = rejected_substring
+		var no_dashes = $LineEdit.text.replace("-", "")
+		$LineEdit.set_caret_column(no_dashes.length())
+
+#######################/Text Input for High Scores/#########################################
