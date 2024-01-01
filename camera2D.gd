@@ -8,7 +8,6 @@ var current_zoom
 func _ready():
 	#just to be safe
 	current_zoom = zoom.x + zoom.y
-	print("current_zoom: ", current_zoom)
 	
 func _input(event):
 	if event.is_action_pressed("zoom_in"):

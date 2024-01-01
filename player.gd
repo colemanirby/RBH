@@ -97,5 +97,4 @@ func _on_body_entered(_body):
 
 
 func _on_basic_gun_fire(bullet, direction, location):
-	print("basic gun fire")
 	fire.emit(bullet, direction, location)

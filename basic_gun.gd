@@ -9,7 +9,6 @@ var can_fire = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print("ready")
 	hide()
 	$Gun_Sprite.animation = "chillin"
 	$Gun_Sprite.play()
@@ -18,7 +17,6 @@ func _ready():
 func _process(_delta):
 	if visible:
 		if Input.is_action_pressed("click") and can_fire:
-			print("Firing")
 			can_fire = false
 			$Gun_Sprite.animation = "firin"
 			$Gun_Sprite.play()
