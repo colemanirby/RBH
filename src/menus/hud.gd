@@ -3,18 +3,21 @@ extends CanvasLayer
 signal start_game
 signal mute_music
 var game_started = false
+var is_paused = false
 # Called when the node enters the scene tree for the first time.
 var highscore_data
 var current_score = 0
 
 func _ready():
+	$PauseMenu.connect("unpause", unpause)
 	$LineEdit.text = "---"
+	$PauseMenu.hide_elements()
 	hide_for_ready()
 	load_highscores()
 
 func hide_for_ready():
 	$LineEdit.hide()
-	$Unpause.hide()
+	$PauseMenu.hide_elements()
 	$HighScores_Label.hide()
 	$Saving.hide()
 	$EnterName.hide()
@@ -68,23 +71,33 @@ func _on_mute_pressed():
 	
 
 func _input(event):
-	
+	print("event: ", event)
 	if event.is_action_pressed("esc"):
-		get_tree().paused = true
-		$Unpause.show()
-		$Mute.show()
-		print("pause!")
+		if not is_paused:
+			print("pausing")
+			pause()
+		elif is_paused:
+			print("unpausing")
+			unpause()
+			
 	if visible and not game_started:
 		if event.is_action_pressed("click"):
 			$HighScores_Label.hide()
 			show_buttons()
-
-
-func _on_unpause_pressed():
-	print("unpaused!")
-	$Unpause.hide()
+			
+func pause():
+	get_tree().paused = true
+	is_paused = true
+	$PauseMenu.show_elements()
+	$Mute.show()
+	print("pause!")
+	
+func unpause():
+	print("unpause!")
+	$PauseMenu.hide_elements()
 	$Mute.hide()
 	get_tree().paused = false
+	is_paused = false
 
 func load_highscores():
 	var high_scores_path = "res://Save/high_scores.json"
