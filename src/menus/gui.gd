@@ -5,7 +5,6 @@ signal mute_music
 var game_started = false
 var is_paused = false
 var lowest_score
-var current_score = 0
 
 func _ready():
 	connect_signals()
@@ -22,7 +21,7 @@ func connect_signals():
 func hide_for_ready():
 	$PauseMenu.hide_elements()
 	$HighScoreScreen.hide_elements()
-	$ScoreLabel.hide()
+	$Hud.hide_elements()
 	$Message.hide()
 
 func show_message(text):
@@ -33,7 +32,7 @@ func show_message(text):
 func show_game_over():
 	var display_input_for_hs = is_score_beat()
 	if display_input_for_hs:
-		$HighScoreScreen.show_screen(current_score)
+		$HighScoreScreen.show_screen($Hud.get_final_score())
 	else:
 		game_over_display()
 
@@ -42,16 +41,15 @@ func game_over_display():
 	game_started = false
 
 func update_score(score):
-	current_score = score
-	$ScoreLabel.text = str(score)
+	$Hud.update_score(score)
 
 func _on_message_timer_timeout():
 	$Message.hide()
 
 func begin_game():
-	current_score = 0
+	$Hud.reset_score()
 	game_started = true
-	$ScoreLabel.show()
+	$Hud.show_elements()
 	$HighScoreScreen.hide_elements()
 	$MainMenu.hide_elements()
 	start_game.emit()
@@ -89,8 +87,7 @@ func unpause():
 	is_paused = false
 
 func show_highscores():
-	$ScoreLabel.hide()
 	$HighScoreScreen.show_highscores()
 
 func is_score_beat():
-	return current_score > int(lowest_score)
+	return $Hud.get_final_score() > int(lowest_score)
