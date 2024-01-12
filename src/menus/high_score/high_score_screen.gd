@@ -6,25 +6,9 @@ var final_score
 
 signal save_completed
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	hide_elements()
 	load_highscores()
-
-func load_highscores():
-	var high_scores_path = "res://Save/high_scores.json"
-	if not FileAccess.file_exists(high_scores_path):
-		print("No highscores")
-		return
-	var load_file = FileAccess.open(high_scores_path, FileAccess.READ)
-	var high_score_data = load_file.get_line()
-	var json = JSON.new()
-	var parse_result = json.parse(high_score_data)
-	if not parse_result == OK:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", high_score_data, " at line ", json.get_error_line())
-		return
-	
-	highscore_data = json.get_data()
 
 func hide_highscores():
 	$HighScores_Label.hide()
@@ -41,7 +25,6 @@ func hide_elements():
 	$Saving.hide()
 	$EnterName.hide()
 
-####################### Text Input for High Scores#########################################
 #this should only be called if a letter has been deleted
 func _on_line_edit_text_changed(new_text):
 	$LineEdit.text = new_text + "-"
@@ -83,10 +66,23 @@ func show_highscores():
 	$HighScores_Label.text = high_score_string
 	$HighScores_Label.show()
 
-#######################/Text Input for High Scores/#########################################
-
 func get_lowest_score():
 	return highscore_data[0].keys()[0]
+	
+func load_highscores():
+	var high_scores_path = "res://Save/high_scores.json"
+	if not FileAccess.file_exists(high_scores_path):
+		print("No highscores")
+		return
+	var load_file = FileAccess.open(high_scores_path, FileAccess.READ)
+	var high_score_data = load_file.get_line()
+	var json = JSON.new()
+	var parse_result = json.parse(high_score_data)
+	if not parse_result == OK:
+		print("JSON Parse Error: ", json.get_error_message(), " in ", high_score_data, " at line ", json.get_error_line())
+		return
+	
+	highscore_data = json.get_data()
 	
 func save_highscores(new_name):
 	var scores = []
@@ -118,18 +114,4 @@ func save_highscores(new_name):
 	save_game.store_line(JSON.stringify(new_highscores))
 	highscore_data = new_highscores
 	save_completed.emit()
-	
-func _on_high_scores_pressed():
-	#hide_buttons()
-	var high_score_string: String = "High Scores: \n \n"
-	var high_score_array = []
-	for entry in highscore_data:
-		var score_value = entry.keys()[0]
-		high_score_array.append(entry[score_value] + ": " + score_value + "\n")
-		
-	for i in high_score_array.size():
-		high_score_string += high_score_array[high_score_array.size() - i - 1] 
-		
-	$HighScores_Label.text = high_score_string
-	$HighScores_Label.show()
 
