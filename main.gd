@@ -13,15 +13,15 @@ func game_over():
 	get_tree().call_group("mobs", "queue_free")
 	mob_count = 0
 	$MobTimer.stop()
-	$HUD.show_game_over()
+	$GUI.show_game_over()
 	$Music.stop()
 
 func new_game():
 	score = 0
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
-	$HUD.update_score(score)
-	$HUD.show_message("Have Fun!")
+	$GUI.update_score(score)
+	$GUI.show_message("Have Fun!")
 	
 	if play_music:
 		$Music.play()
@@ -61,7 +61,7 @@ func killed():
 	$EnemyDead.play()
 	mob_count = mob_count - 1
 	score += 1
-	$HUD.update_score(score)
+	$GUI.update_score(score)
 
 func _on_start_timer_timeout():
 	$MobTimer.start()

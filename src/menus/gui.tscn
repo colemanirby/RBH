@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://vwxqx74xs3po"]
+
+[ext_resource type="Script" path="res://src/menus/gui.gd" id="1_0hb1t"]
+[ext_resource type="FontFile" uid="uid://ban5wal70vg1d" path="res://fonts/colemanpixel.ttf" id="2_ifbct"]
+[ext_resource type="PackedScene" uid="uid://cdrhj6wyf1wb7" path="res://src/menus/pause/pause_menu.tscn" id="3_1iu5c"]
+[ext_resource type="PackedScene" uid="uid://b3fn485c8kir3" path="res://src/menus/high_score/high_score_screen.tscn" id="4_pxkcm"]
+[ext_resource type="PackedScene" uid="uid://ck5gtux5dnklc" path="res://src/menus/main/main_menu.tscn" id="5_l22i4"]
+[ext_resource type="PackedScene" uid="uid://ce8gpbolvdwpu" path="res://src/menus/hud/hud.tscn" id="6_nj3yc"]
+
+[node name="GUI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_0hb1t")
+
+[node name="ScoreLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 88.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0, 0.266667, 0, 1)
+theme_override_fonts/font = ExtResource("2_ifbct")
+theme_override_font_sizes/font_size = 64
+text = "0
+"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Message" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -134.0
+offset_top = -22.5
+offset_right = 134.0
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_ifbct")
+theme_override_font_sizes/font_size = 32
+text = "Across The Stars"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Mute" type="Button" parent="."]
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -49.0
+offset_top = -31.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_ifbct")
+text = "Mute"
+
+[node name="PauseMenu" parent="." instance=ExtResource("3_1iu5c")]
+
+[node name="HighScoreScreen" parent="." instance=ExtResource("4_pxkcm")]
+
+[node name="MainMenu" parent="." instance=ExtResource("5_l22i4")]
+
+[node name="Hud" parent="." instance=ExtResource("6_nj3yc")]
+
+[connection signal="timeout" from="MessageTimer" to="." method="_on_message_timer_timeout"]
+[connection signal="pressed" from="Mute" to="." method="_on_mute_pressed"]

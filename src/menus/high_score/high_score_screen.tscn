@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3fn485c8kir3"]
+
+[ext_resource type="Script" path="res://src/menus/high_score/high_score_screen.gd" id="1_kejad"]
+[ext_resource type="FontFile" uid="uid://ban5wal70vg1d" path="res://fonts/colemanpixel.ttf" id="1_pj3fu"]
+
+[node name="HighScoreScreen" type="CanvasLayer"]
+script = ExtResource("1_kejad")
+
+[node name="HighScores_Label" type="Label" parent="."]
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -228.0
+offset_right = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("1_pj3fu")
+theme_override_font_sizes/font_size = 30
+text = "High Scores!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+offset_left = 535.0
+offset_top = 247.0
+offset_right = 602.063
+offset_bottom = 278.0
+theme_override_colors/caret_color = Color(0, 0, 0, 0)
+theme_override_fonts/font = ExtResource("1_pj3fu")
+text = "---"
+alignment = 1
+max_length = 3
+
+[node name="Saving" type="Label" parent="."]
+offset_left = 456.0
+offset_top = 234.0
+offset_right = 684.0
+offset_bottom = 296.0
+theme_override_fonts/font = ExtResource("1_pj3fu")
+theme_override_font_sizes/font_size = 61
+text = "Saving..."
+
+[node name="EnterName" type="Label" parent="."]
+offset_left = 398.0
+offset_top = 159.0
+offset_right = 748.0
+offset_bottom = 219.0
+theme_override_fonts/font = ExtResource("1_pj3fu")
+theme_override_font_sizes/font_size = 60
+text = "Enter Name:"
+
+[connection signal="text_change_rejected" from="LineEdit" to="." method="_on_line_edit_text_change_rejected"]
+[connection signal="text_changed" from="LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="text_submitted" from="LineEdit" to="." method="_on_line_edit_text_submitted"]
